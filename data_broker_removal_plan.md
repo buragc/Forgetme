@@ -7,7 +7,7 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 
 ### Key Principles
 - **Adaptive Processing**: Each data broker has unique removal processes, so the agent must be flexible and learn from website structures
-- **Human-in-the-Loop**: For complex cases or failures, escalate to human review via Linear tasks
+- **Human-in-the-Loop**: For complex cases or failures, email the user directly and monitor replies for guidance, with Linear tasks for internal tracking
 - **Comprehensive Tracking**: Maintain detailed logs of all interactions and statuses
 - **Privacy-First**: Secure handling of sensitive user data throughout the process
 - **Scalable Architecture**: Support multiple users and concurrent processing
@@ -22,18 +22,19 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 │                 │◄──►│                 │◄──►│    Orchestrator │
 │ User Interface  │    │  FastAPI/Flask  │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │                        │
-                                ▼                        ▼
+                               │                        │
+                               ▼                        ▼
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Supabase DB   │    │  Email Service  │    │ Web Scraper     │
 │                 │    │                 │    │                 │
 │ - Users         │    │ - Inbox Creation│    │ - Playwright    │
 │ - Data Brokers  │    │ - Send/Receive  │    │ - Form Detection│
-│ - Requests      │    │ - Monitoring    │    │ - Content Parse │
-│ - Status Logs   │    │                 │    │                 │
+│ - Requests      │    │ - User Comms    │    │ - Content Parse │
+│ - Status Logs   │    │ - Reply Monitor │    │                 │
+│ - User Messages │    │                 │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │                        │
-                                ▼                        ▼
+                               │                        │
+                               ▼                        ▼
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Linear API    │    │  LLM Provider   │    │ Monitoring &    │
 │                 │    │                 │    │ Logging         │
@@ -52,6 +53,8 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
   - Form Submission Agent: Handles form-based removal requests
   - Email Communication Agent: Manages email-based removal requests
   - Inbox Monitoring Agent: Watches for confirmation emails and responses
+  - User Communication Agent: Handles direct communication with users via email
+  - Reply Processing Agent: Monitors and processes user replies for next steps
   - Status Tracking Agent: Updates request statuses and logs
 
 #### 2. Data Layer (Supabase)
@@ -59,6 +62,8 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - **Data Brokers Table**: Catalog of known data brokers with removal instructions
 - **Removal Requests Table**: Track individual removal requests and their statuses
 - **Email Inboxes Table**: Manage created email addresses per user
+- **User Communications Table**: Track emails sent to users and their responses
+- **Human Loop Sessions Table**: Manage ongoing human-in-the-loop conversations
 - **Activity Logs Table**: Detailed logs of all agent actions
 
 #### 3. Email Service Integration
@@ -68,6 +73,9 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
   - Send automated removal requests
   - Monitor inbox for incoming messages
   - Parse and respond to confirmation emails
+  - Send human-in-the-loop emails to user registration addresses
+  - Monitor user replies and parse instructions/responses
+  - Handle threaded conversations with users
 
 #### 4. Web Scraping Engine
 - **Playwright**: For browser automation and dynamic content handling
@@ -90,6 +98,8 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - [ ] Design and implement Data Brokers table schema
 - [ ] Design and implement Removal Requests table schema
 - [ ] Design and implement Email Inboxes table schema
+- [ ] Design and implement User Communications table schema
+- [ ] Design and implement Human Loop Sessions table schema
 - [ ] Design and implement Activity Logs table schema
 - [ ] Create database indexes for performance
 - [ ] Set up Row Level Security (RLS) policies
@@ -134,6 +144,22 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - [ ] Create confirmation response automation
 - [ ] Handle multi-step confirmation processes
 - [ ] Implement inbox cleanup and management
+
+#### User Communication Agent
+- [ ] Implement user email composition for human-in-the-loop scenarios
+- [ ] Create escalation triggers for complex cases
+- [ ] Develop contextual email templates for different failure types
+- [ ] Implement email sending to user registration addresses
+- [ ] Create conversation threading and tracking
+- [ ] Handle email delivery and bounce management
+
+#### Reply Processing Agent
+- [ ] Monitor user email replies for human-in-the-loop sessions
+- [ ] Implement natural language understanding for user instructions
+- [ ] Parse user responses for next action decisions
+- [ ] Handle various reply formats (plain text, quoted replies, etc.)
+- [ ] Implement conversation state management
+- [ ] Create action extraction and validation from user responses
 
 ### Phase 3: Data Broker Integration (Weeks 6-8)
 
