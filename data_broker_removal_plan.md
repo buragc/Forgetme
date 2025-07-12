@@ -319,11 +319,14 @@ Note: Linear is NOT used for human-in-the-loop workflows - all user communicatio
 ```
 
 ### Performance Targets
-- Process 100+ removal requests per hour
+- Process 100+ removal requests per hour (500+ for known patterns)
 - 95% uptime for core services
 - <5 second response time for status updates
 - 99.9% data accuracy for form submissions
 - <24 hour response time for email confirmations
+- 90%+ pattern reuse rate for established brokers
+- 95%+ success rate for pattern-based submissions
+- <2 minutes average processing time for known patterns
 
 ### Security Requirements
 - End-to-end encryption for user data
@@ -336,10 +339,13 @@ Note: Linear is NOT used for human-in-the-loop workflows - all user communicatio
 ## 5. Risk Mitigation
 
 ### Technical Risks
-- **Website Changes**: Implement adaptive scraping with fallback to manual review
+- **Website Changes**: Implement adaptive scraping with pattern updating and fallback to manual review
+- **Pattern Obsolescence**: Monitor pattern success rates and auto-deprecate outdated methods
 - **CAPTCHA Blocking**: Use multiple IP addresses and implement human escalation
 - **Rate Limiting**: Implement distributed processing and respectful delays
 - **Email Deliverability**: Use reputable providers and monitor sender reputation
+- **Pattern Conflicts**: Implement version control and pattern conflict resolution
+- **Learning Bias**: Validate patterns across diverse broker types and user scenarios
 
 ### Legal and Compliance Risks
 - **Terms of Service**: Ensure compliance with data broker ToS
