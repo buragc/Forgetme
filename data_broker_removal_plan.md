@@ -7,7 +7,7 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 
 ### Key Principles
 - **Adaptive Processing**: Each data broker has unique removal processes, so the agent must be flexible and learn from website structures
-- **Human-in-the-Loop**: For complex cases or failures, email the user directly and monitor replies for guidance, with Linear tasks for internal tracking
+- **Human-in-the-Loop**: For complex cases or failures, email the user directly and monitor replies for guidance and next steps
 - **Comprehensive Tracking**: Maintain detailed logs of all interactions and statuses
 - **Privacy-First**: Secure handling of sensitive user data throughout the process
 - **Scalable Architecture**: Support multiple users and concurrent processing
@@ -37,10 +37,10 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
                                ▼                        ▼
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Linear API    │    │  LLM Provider   │    │ Monitoring &    │
-│                 │    │                 │    │ Logging         │
-│ - Task Creation │    │ - GPT-4/Claude  │    │                 │
-│ - Status Updates│    │ - Decision Make │    │ - Prometheus    │
-│ - Notifications │    │ - Content Parse │    │ - Grafana       │
+│    (Optional)   │    │                 │    │ Logging         │
+│ - Internal Ops  │    │ - GPT-4/Claude  │    │                 │
+│ - Dev Tracking  │    │ - Decision Make │    │ - Prometheus    │
+│ - Bug Reports   │    │ - Content Parse │    │ - Grafana       │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
@@ -82,6 +82,14 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - **BeautifulSoup**: For HTML parsing and content extraction
 - **Request Management**: Rate limiting and respectful scraping practices
 
+#### 5. Human-in-the-Loop Email System
+- **Direct User Communication**: All human intervention happens via email to user's registration address
+- **Escalation Triggers**: Automated detection of complex cases requiring user input
+- **Contextual Assistance**: Emails include screenshots, form details, and specific guidance needed
+- **Reply Processing**: Natural language understanding of user responses and instructions
+- **Conversation Management**: Threaded email conversations with state tracking
+- **Action Resolution**: Conversion of user instructions into automated actions
+
 ## 3. Detailed Task List
 
 ### Phase 1: Foundation Setup (Weeks 1-2)
@@ -89,9 +97,9 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 #### Infrastructure Tasks
 - [ ] Set up Python development environment with Poetry/pipenv
 - [ ] Create Supabase project and configure database
-- [ ] Set up Linear workspace and API integration
 - [ ] Configure email service provider account (Mailgun/SendGrid)
 - [ ] Set up monitoring infrastructure (Prometheus/Grafana)
+- [ ] (Optional) Set up Linear workspace for internal development tracking
 
 #### Database Design
 - [ ] Design and implement Users table schema
@@ -176,7 +184,7 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - [ ] Create fallback mechanisms for unknown brokers
 - [ ] Develop success/failure detection logic
 - [ ] Implement progressive retry strategies
-- [ ] Create manual escalation triggers
+- [ ] Create user email escalation triggers for complex cases
 - [ ] Add broker-specific rate limiting
 
 ### Phase 4: Status Tracking and Management (Weeks 9-10)
@@ -189,13 +197,15 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - [ ] Create status reporting dashboards
 - [ ] Add manual status override capabilities
 
-#### Linear Integration
-- [ ] Implement Linear task creation for failed requests
-- [ ] Create task templates for different failure types
-- [ ] Develop status synchronization between systems
-- [ ] Implement automatic task updates
-- [ ] Create escalation workflows
-- [ ] Add manual task assignment features
+#### Optional Linear Integration (Internal Operations Only)
+- [ ] Implement Linear task creation for system bugs and development issues
+- [ ] Create task templates for internal operational problems
+- [ ] Set up development workflow tracking
+- [ ] Implement bug reporting and tracking
+- [ ] Create internal team notifications
+- [ ] Add development task assignment features
+
+Note: Linear is NOT used for human-in-the-loop workflows - all user communication happens via email.
 
 ### Phase 5: User Interface and Experience (Weeks 11-12)
 
@@ -264,7 +274,7 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - celery>=5.3.0  # For background task processing
 - redis>=5.0.0   # For caching and task queue
 - mailgun-python>=1.0.0  # Email service
-- linear-sdk>=1.0.0      # Linear API
+- linear-sdk>=1.0.0      # Optional: Internal development tracking only
 - prometheus-client>=0.19.0  # Monitoring
 ```
 
@@ -303,4 +313,54 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 - **Manual Escalation**: Clear processes for human intervention
 - **Data Quality**: Implement validation and verification workflows
 
-This plan provides a comprehensive roadmap for building a robust, scalable, and legally compliant data broker removal service using modern AI agent technologies.
+## 6. Human-in-the-Loop Email Workflow
+
+### Escalation Triggers
+The system automatically escalates to human-in-the-loop when:
+- Data broker website structure has changed significantly
+- CAPTCHA or multi-factor authentication is required
+- Form submission fails repeatedly
+- Email bounce or delivery issues occur
+- Ambiguous confirmation requirements detected
+- New/unknown data broker encountered
+
+### Email Communication Process
+1. **Detection**: Agent identifies case requiring human intervention
+2. **Context Gathering**: System captures screenshots, form details, error messages
+3. **Email Composition**: AI generates contextual email with:
+   - Clear description of the issue
+   - Screenshots of relevant pages
+   - Specific guidance needed from user
+   - Multiple choice options when applicable
+4. **Email Sending**: Message sent to user's registration email address
+5. **Reply Monitoring**: System monitors for user responses
+6. **Response Processing**: AI parses user reply and extracts action instructions
+7. **Action Execution**: System implements user's guidance
+8. **Follow-up**: Confirmation email sent to user with results
+
+### Example Escalation Email
+```
+Subject: Action Needed: DataBroker123.com Removal Request
+
+Hi [User Name],
+
+I encountered an issue while trying to remove your information from DataBroker123.com and need your guidance.
+
+Issue: The website now requires phone verification, but I can only access email-based methods.
+
+What I found:
+- Removal form requires SMS verification to [your phone number]
+- Alternative email option may be available but requires manual confirmation
+
+Options:
+1. Provide temporary access to receive SMS verification code
+2. Try alternative email method (may take longer)
+3. Skip this broker for now
+
+Please reply with your preference, and I'll continue the removal process.
+
+Best regards,
+Your Data Removal Agent
+```
+
+This plan provides a comprehensive roadmap for building a robust, scalable, and legally compliant data broker removal service using modern AI agent technologies with email-based human-in-the-loop communication.
