@@ -98,6 +98,11 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 
 ## 3. Detailed Task List
 
+### Phase 0: Get a Proof of Concept in a Jupyter notebook (Weeks 0-1)
+- [ ] Demonstrating the basic functionality of the LangGraph agent using in memory checkpoints and hard-coded inputs
+- [ ] Ability to web scrape and discovering how to submit removal requests for a given data broker
+- [ ] Create an on-demand inbox, send an email from it and monitor email responses
+
 ### Phase 1: Foundation Setup (Weeks 1-2)
 
 #### Infrastructure Tasks
