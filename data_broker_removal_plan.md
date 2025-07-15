@@ -98,19 +98,13 @@ The app will use an AI agent-based approach with LangGraph to orchestrate comple
 
 ## 3. Detailed Task List
 
-### Phase 0: Get a Proof of Concept in a Jupyter notebook (Weeks 0-1)
-- [ ] Demonstrating the basic functionality of the LangGraph agent using in memory checkpoints and hard-coded inputs
-- [ ] Ability to web scrape and discovering how to submit removal requests for a given data broker
-- [ ] Create an on-demand inbox, send an email from it and monitor email responses
-
 ### Phase 1: Foundation Setup (Weeks 1-2)
 
 #### Infrastructure Tasks
-- [ ] Set up Python development environment with Poetry/pipenv
-- [ ] Create Supabase project and configure database
-- [ ] Configure email service provider account (Mailgun/SendGrid)
-- [ ] Set up monitoring infrastructure (Prometheus/Grafana)
-- [ ] (Optional) Set up Linear workspace for internal development tracking
+- [X] Set up Python development environment with pipenv
+- [X] Create Supabase project and configure database
+- [X] Create a component that can send and read emails. Make it a generic interface that I can swap out later. For now make it work with Gmail. 
+
 
 #### Database Design
 - [ ] Design and implement Users table schema

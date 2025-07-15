@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+langgraph = ">=0.1.0"
+playwright = ">=1.40.0"
+beautifulsoup4 = ">=4.12.0"
+jupyter = "*"
+mailgun3-python = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
