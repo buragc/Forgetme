@@ -2,4 +2,6 @@ langgraph>=0.1.0
 playwright>=1.40.0
 beautifulsoup4>=4.12.0
 jupyter
-mailgun3_python 
+mailgun3_python
+anthropic
+python-dotenv 
